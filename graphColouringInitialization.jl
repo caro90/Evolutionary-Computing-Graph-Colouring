@@ -1,5 +1,8 @@
  function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColors)
+<<<<<<< HEAD
     
+=======
+>>>>>>> Initialization
     #= #temporary manual graphAdjacency matrix
         graphAdjacencyMatrix = Array{Int64}(6,2)
         graphAdjacencyMatrix[1,1] = 1 ;graphAdjacencyMatrix[1,2] = 4;
@@ -13,6 +16,7 @@
         colouringPartioning = Array{Array{Int64}}(numberOfColors)
         for i=1:numberOfColors
             colouringPartioning[i] = Array{Int64}(0)
+<<<<<<< HEAD
         end
 
         #Assigning a color to every vertex. No particular preference
@@ -25,5 +29,18 @@
             colouringPartioning[j]=append!(colouringPartioning[j],i)
 
         end
+=======
+        end
+        #Assigning a color to every vertex. No particular preference
+        j = 0;
+        for i=1:numberOfVertices
+            j=j+1;
+            if (j>numberOfColors)
+                j = 1
+            end
+            colouringPartioning[j]=append!(colouringPartioning[j],i)
+
+        end
+>>>>>>> Initialization
 return graphAdjacencyMatrix, colouringPartioning
 end
