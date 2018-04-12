@@ -1,31 +1,32 @@
-function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,numOfPopulation)
+function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
     #temporary manual graphAdjacency matrix
-    #=graphAdjacencyMatrix = Array{Int64}(5,2)
+#=  graphAdjacencyMatrix = Array{Int64}(5,2)
     graphAdjacencyMatrix[1,1] = 1 ;graphAdjacencyMatrix[1,2] = 4;
     graphAdjacencyMatrix[2,1] = 1 ;graphAdjacencyMatrix[2,2] = 2
     graphAdjacencyMatrix[3,1] = 2 ;graphAdjacencyMatrix[3,2] = 3
     graphAdjacencyMatrix[4,1] = 2 ;graphAdjacencyMatrix[4,2] = 4
     graphAdjacencyMatrix[5,1] = 3 ;graphAdjacencyMatrix[5,2] = 4
-    =#
-    graphAdjacencyMatrix=datasetLoading(datasetPath)
+=#
+    #graphAdjacencyMatrix=datasetLoading(datasetPath)
     #--------------------------------
     # Create a 2D Array:
     # Every row represents a solution of coloured vertices
     # The columns are divided by the number of colours
-    colouringPartioning=Array{Array{Int64}}(numOfPopulation,numberOfColours)
-    #Initializing
-    for i=1:numOfPopulation
+    colouringPartioning=Array{Array{Int64}}(populationSize,numberOfColours)
+    for i=1:populationSize
         for j=1:numberOfColours
             colouringPartioning[i,j] = Array{Int64}(0)
         end
     end
-    #Assigning a color to every vertex. No particular preference
-    for i=1:numOfPopulation
-        temp=randperm(numberOfVertices);
-        k=0;
-        for j=1:numberOfColours
-               colouringPartioning[i,j]=append!(colouringPartioning[i,j],temp[k+1:k+1+div(numberOfVertices,numberOfColours)-1])
-               k=k+div(numberOfVertices,numberOfColours)
+    for i=1:populationSize
+        #Assigning a color to every vertex. No particular preference
+        #temp=randperm(numberOfVertices);
+        #k=0;
+        for j=1:numberOfVertices
+               #colouringPartioning[i,j]=append!(colouringPartioning[i,j],temp[k+1:k+1+div(numberOfVertices,numberOfColours)-1])
+               #k=k+div(numberOfVertices,numberOfColours)
+               #append!(colouringPartioning[i,j], temp[j])
+               append!(colouringPartioning[i, rand(rng, 1:numberOfColours)], j)
         end
     end
 return graphAdjacencyMatrix, colouringPartioning

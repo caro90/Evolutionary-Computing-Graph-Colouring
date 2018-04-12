@@ -6,11 +6,11 @@ include("VDLS.jl")
 rng = MersenneTwister(Dates.millisecond(now()))
 datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
-numOfPopulation=10
+populationSize=10
 numberOfVertices=10
 numberOfColours=5
 
-graphAdjacencyMatrix,colouringPartioning=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,numOfPopulation)
+graphAdjacencyMatrix,colouringPartioning=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 #=
 print("Started\n")
 print(string(colouringPartioning, "<-- Before \n"))
