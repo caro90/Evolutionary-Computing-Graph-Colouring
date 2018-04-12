@@ -12,17 +12,14 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
     # Create a 2D Array:
     # Every row represents a solution of coloured vertices
     # The columns are divided by the number of colours
-    # e.g: for 10 columns(namely 10 number of vertices) and 2 colours, the vertices 1-5 in
-    # every row represent the first colour and the 6-10 the second colour.
-    colouringPartioning = Array{Array{Int64}}(numOfPopulation,numberOfColours)
-    colouringPartioning(:)=0;
+    colouringPartioning=Array{Array{Int64}}(numOfPopulation,numberOfColours)
     for i=1:numOfPopulation
         #Assigning a color to every vertex. No particular preference
         temp=randperm(numberOfVertices);
+        k=0;
         for j=1:numberOfColours
-            for k=1:numberOfColours:numberOfVertices-1
-                colouringPartioning[i,j]=append!(colouringPartioning[i,j],temp[k:k+numberOfColours-1])
-            end
+               colouringPartioning[i,j]=append!(colouringPartioning[i,j],temp[k+1:k+1+div(numberOfVertices,numberOfColours)-1])
+               k=k+div(numberOfVertices,numberOfColours)
         end
     end
 
