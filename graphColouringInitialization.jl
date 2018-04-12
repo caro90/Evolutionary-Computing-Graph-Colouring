@@ -13,13 +13,14 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
     # Every row represents a solution of coloured vertices
     # The columns are divided by the number of colours
     colouringPartioning=Array{Array{Int64}}(numOfPopulation,numberOfColours)
+    #Initializing
     for i=1:numOfPopulation
         for j=1:numberOfColours
             colouringPartioning[i,j] = Array{Int64}(0)
         end
     end
+    #Assigning a color to every vertex. No particular preference
     for i=1:numOfPopulation
-        #Assigning a color to every vertex. No particular preference
         temp=randperm(numberOfVertices);
         k=0;
         for j=1:numberOfColours
@@ -27,6 +28,5 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
                k=k+div(numberOfVertices,numberOfColours)
         end
     end
-
 return graphAdjacencyMatrix, colouringPartioning
 end

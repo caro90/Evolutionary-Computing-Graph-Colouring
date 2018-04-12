@@ -8,7 +8,7 @@ datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
 numOfPopulation=10
 numberOfVertices=10
-numberOfColours=2
+numberOfColours=5
 
 graphAdjacencyMatrix,colouringPartioning=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,numOfPopulation)
 #=
