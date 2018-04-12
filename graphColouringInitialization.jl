@@ -14,6 +14,11 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
     # The columns are divided by the number of colours
     colouringPartioning=Array{Array{Int64}}(numOfPopulation,numberOfColours)
     for i=1:numOfPopulation
+        for j=1:numberOfColours
+            colouringPartioning[i,j] = Array{Int64}(0)
+        end
+    end
+    for i=1:numOfPopulation
         #Assigning a color to every vertex. No particular preference
         temp=randperm(numberOfVertices);
         k=0;
