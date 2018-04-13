@@ -14,7 +14,8 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
     conflictsBefore = conflictsAfter + 1
 
     # Perform vertex decent until no improvement was made
-    while conflictsAfter < conflictsBefore
+    iterationsWithoutImprovement = 0
+    while iterationsWithoutImprovement < 100
 
         # Traverse over all vertices in a random order
         for i=1:numberOfVertices
@@ -50,6 +51,11 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
         conflictsBefore = conflictsAfter
         conflictsAfter = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
+        if conflictsAfter >= conflictsBefore
+            iterationsWithoutImprovement += 1
+        else
+            iterationsWithoutImprovement = 0
+        end
     end
 
 return colouringPartioning
