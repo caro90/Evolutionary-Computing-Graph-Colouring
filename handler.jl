@@ -8,16 +8,16 @@ include("geneticAlgorithm.jl")
 rng = MersenneTwister(Dates.millisecond(now()))
 datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
-populationSize=10
+populationSize=100
 numberOfVertices=450
-numberOfColours=2
+numberOfColours=18
 conflicts=0;
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 
 offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
 
 
-#conflicts=geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
+conflicts=geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
 
 #=
 print("Started\n")

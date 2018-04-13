@@ -1,12 +1,15 @@
 function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
-    progress=0;
     conflicts=0;
-    newGen=deepcopy(population)
-    V=Array{Int64}(Int(3));
+    V=Array{Int64}(Int(4));
+    progressFlags=Array{Int64}(Int(populationSize))
+    progressFlags[:]=0;
+    progress=0;
+
     while progress!=-1
-        #1)Shuffling the population: ***
+        #1)Shuffling the population:
+        population=population[shuffle(1:end),:]
         #2)Pairing using crossover:
-        offsprings=GPX(newGen,populationSize,numberOfVertices,numberOfColours,rng)
+        offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
         #3)Family competition
         #Apply Local Search Vertex Descent to every Offspring Solution
         for i=1:div(populationSize,2)
@@ -16,41 +19,43 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
 
         for i=2:2:populationSize
             # Create array with vertex colours for quick access
-            vertexColours = createVertexColoursArray(offsprings[div(i,2),:], numberOfVertices)
-            conflictsOffspring = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
+            vertexColours = createVertexColoursArray(offsprings[i-1,:], numberOfVertices)
+            conflictsOffspring1 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
-            vertexColours = createVertexColoursArray(newGen[i-1,:], numberOfVertices)
+            vertexColours = createVertexColoursArray(offsprings[i,:], numberOfVertices)
+            conflictsOffspring2 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
+
+            vertexColours = createVertexColoursArray(population[i-1,:], numberOfVertices)
             conflictsParent1 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
-            vertexColours = createVertexColoursArray(newGen[i,:], numberOfVertices)
+            vertexColours = createVertexColoursArray(population[i,:], numberOfVertices)
             conflictsParent2 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
-            if conflictsOffspring==0 || conflictsParent1==0 || conflictsParent2==0
+
+            if conflictsOffspring1==0 ||conflictsOffspring2==0 || conflictsParent1==0 || conflictsParent2==0
                 #Solution found: No conflicting edges=> k-colouring possible
                 progress=-1;
+                println("Solution Found")
             end
 
-            V[:]=sortperm([ conflictsOffspring,conflictsParent1,conflictsParent2 ])
+            V[:]=sortperm([ conflictsOffspring1,conflictsOffspring1,conflictsParent1,conflictsParent2])
 
-            if V[2]==1
-                newGen[i-1,:]=offSprings[i,:]
+            if V[3]==1
+                population[i-1,:]=offsprings[i,:]
+                progressFlags[i]=1;
             end
             if V[3]==1
-                newGen[i-1,:]=offSprings[i,:]
+                population[i-1,:]=offsprings[i,:]
+                progressFlags[i]=1;
             end
 
         end
         # When no ofspring solution has entered the next generation,
         # then the GA run is stopped.
-        #=try
-            if ( minimum(population-newGen)==0
-                    progress=-1;
-            end
-        catch e
-            println
+        if sum(progressFlags==0)
+            println("No Progress, GA terminated")
             progress=-1;
         end
-
-        population=newGen=#
+        progressFlags[:]=0;
     end
 
 return conflicts
