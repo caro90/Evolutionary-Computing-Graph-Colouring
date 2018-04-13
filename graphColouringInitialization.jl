@@ -7,27 +7,22 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
     graphAdjacencyMatrix[4,1] = 2 ;graphAdjacencyMatrix[4,2] = 4
     graphAdjacencyMatrix[5,1] = 3 ;graphAdjacencyMatrix[5,2] = 4
 =#
-    #graphAdjacencyMatrix=datasetLoading(datasetPath)
+    graphAdjacencyMatrix=datasetLoading(datasetPath)
     #--------------------------------
     # Create a 2D Array:
     # Every row represents a solution of coloured vertices
     # The columns are divided by the number of colours
-    colouringPartioning=Array{Array{Int64}}(populationSize,numberOfColours)
+    population=Array{Array{Int64}}(populationSize,numberOfColours)
     for i=1:populationSize
         for j=1:numberOfColours
-            colouringPartioning[i,j] = Array{Int64}(0)
+            population[i,j] = Array{Int64}(0)
         end
     end
     for i=1:populationSize
         #Assigning a color to every vertex. No particular preference
-        #temp=randperm(numberOfVertices);
-        #k=0;
         for j=1:numberOfVertices
-               #colouringPartioning[i,j]=append!(colouringPartioning[i,j],temp[k+1:k+1+div(numberOfVertices,numberOfColours)-1])
-               #k=k+div(numberOfVertices,numberOfColours)
-               #append!(colouringPartioning[i,j], temp[j])
-               append!(colouringPartioning[i, rand(rng, 1:numberOfColours)], j)
+               append!(population[i, rand(rng, 1:numberOfColours)], j)
         end
     end
-return graphAdjacencyMatrix, colouringPartioning
+return graphAdjacencyMatrix, population
 end
