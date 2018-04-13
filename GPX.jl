@@ -1,17 +1,22 @@
 #Greedy Partitionioning Crossover Implementation
 function GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
     #The number of offsprings are half the number of parents
-    offsprings=Array{Array{Int64}}(div(populationSize,2),numberOfColours)
+    offsprings=Array{Array{Int64}}(populationSize,numberOfColours)
     #Offsprings Initialization
-    for i=1:div(populationSize,2)
+    for i=1:populationSize
         for j=1:numberOfColours
             offsprings[i,j] = Array{Int64}(0)
         end
     end
     indices1=1;
-    for i=1:2:populationSize-1
-        tempParent1=deepcopy(population[i,:])
-        tempParent2=deepcopy(population[i+1,:])
+    for i=1:populationSize-1
+        if (mod(i,2)==0)
+            tempParent1=deepcopy(population[i,:])
+            tempParent2=deepcopy(population[i+1,:])
+        else
+            tempParent2=deepcopy(population[i,:])
+            tempParent1=deepcopy(population[i+1,:])
+        end    
         for l=1:numberOfColours
             if mod(l,2)==1
             #choose largest subset color from 1st parent
@@ -57,5 +62,5 @@ function GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
         end
         indices1=indices1+1;
     end
-return population,offsprings
+return offsprings
 end
