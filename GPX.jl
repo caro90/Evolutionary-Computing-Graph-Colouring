@@ -1,9 +1,6 @@
 #Greedy Partitionioning Crossover Implementation
 function GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
-<<<<<<< HEAD
     #The number of offsprings are half the number of parents
-=======
->>>>>>> 6ef36cb485e2460c3d1cf820ec06a5a68d7ef910
     offsprings=Array{Array{Int64}}(div(populationSize,2),numberOfColours)
     #Offsprings Initialization
     for i=1:div(populationSize,2)

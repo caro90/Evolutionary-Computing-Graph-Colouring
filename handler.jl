@@ -7,15 +7,16 @@ include("GPX.jl")
 rng = MersenneTwister(Dates.millisecond(now()))
 datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
-populationSize=20
-numberOfVertices=10
+populationSize=10
+numberOfVertices=450
 numberOfColours=2
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 
-population2,offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
-#=
+population,offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
+#population=[population,offsprings]
+
 print("Started\n")
 print(string(colouringPartioning, "<-- Before \n"))
-colouringPartioning=VDLS(graphAdjacencyMatrix,colouringPartioning,numberOfVertices,rng)
+colorpart1=population[2,:];
+population[2,:]=VDLS(graphAdjacencyMatrix,colorpart1,numberOfVertices,rng)
 print(string("After:", colouringPartioning, "<-- After \n"))
-=#
