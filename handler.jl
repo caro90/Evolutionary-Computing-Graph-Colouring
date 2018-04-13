@@ -7,9 +7,9 @@ include("GPX.jl")
 rng = MersenneTwister(Dates.millisecond(now()))
 datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
-populationSize=10
+populationSize=20
 numberOfVertices=10
-numberOfColours=10
+numberOfColours=2
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 
 population2,offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
