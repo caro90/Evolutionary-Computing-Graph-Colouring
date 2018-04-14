@@ -12,7 +12,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
         offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
         #3)Family competition
         #Apply Local Search Vertex Descent to every Offspring Solution
-        for i=1:populationSize
+        Threads.@threads for i=1:populationSize
             solution=deepcopy(offsprings[i,:]);
             offsprings[i,:]=VDLS(graphAdjacencyMatrix, solution, numberOfVertices, rng)
         end

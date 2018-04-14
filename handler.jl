@@ -11,7 +11,7 @@ datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
 populationSize=100
 numberOfVertices=450
-numberOfColours=16
+numberOfColours=14
 tic()
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
