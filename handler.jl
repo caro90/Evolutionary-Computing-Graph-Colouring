@@ -1,4 +1,6 @@
+#function handler()
 using StatsBase
+
 include("countConflictingEdges.jl")
 include("graphColouringInitialization.jl")
 include("datasetLoading.jl")
@@ -10,19 +12,9 @@ datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
 populationSize=100
 numberOfVertices=450
-numberOfColours=18
+numberOfColours=15
 conflicts=0;
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
+geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
 
-offsprings=GPX(population,populationSize,numberOfVertices,numberOfColours,rng)
-
-
-conflicts=geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
-
-#=
-print("Started\n")
-print(string(population[2,:], "<-- Before \n"))
-colorpart1=deepcopy(population[3,:]);
-population[2,:]=VDLS(graphAdjacencyMatrix,colorpart1,numberOfVertices,rng)
-print(string("After:", population[2,:], "<-- After \n"))
-=#
+#end
