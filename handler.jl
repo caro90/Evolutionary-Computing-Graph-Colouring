@@ -1,6 +1,5 @@
 #function handler()
 using StatsBase
-
 include("countConflictingEdges.jl")
 include("graphColouringInitialization.jl")
 include("datasetLoading.jl")
@@ -12,9 +11,9 @@ datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
 
 populationSize=100
 numberOfVertices=450
-numberOfColours=15
-conflicts=0;
+numberOfColours=16
+tic()
 graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
-
+executionTiming=toc()
 #end

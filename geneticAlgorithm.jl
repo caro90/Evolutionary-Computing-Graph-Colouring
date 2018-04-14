@@ -16,7 +16,6 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             solution=deepcopy(offsprings[i,:]);
             offsprings[i,:]=VDLS(graphAdjacencyMatrix, solution, numberOfVertices, rng)
         end
-
         for i=2:2:populationSize
             # Create array with vertex colours for quick access
             vertexColours = createVertexColoursArray(offsprings[i-1,:], numberOfVertices)
@@ -31,38 +30,45 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             vertexColours = createVertexColoursArray(population[i,:], numberOfVertices)
             conflictsParent2 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
-            if conflictsOffspring1==0 ||conflictsOffspring2==0 || conflictsParent1==0 || conflictsParent2==0
+            ## Checking whether or not a solution found.
+            if conflictsOffspring1==0   ||
+               conflictsOffspring2==0   ||
+               conflictsParent1==0      ||
+               conflictsParent2==0
                 #Solution found: No conflicting edges=> k-colouring possible
                 progress=-1;
                 println("Solution Found")
+                println("Population=");print(populationSize)
+                println("numberOfColours=");print(numberOfColours)
             end
 
             V[:]=sortperm([ conflictsOffspring1,conflictsOffspring2,conflictsParent1,conflictsParent2])
-
             if V[3]==1
-                population[i-1,:]=offsprings[i-1,:]
+                population[i-1,:]=deepcopy(offsprings[i-1,:])
                 progressFlags[i-1]=1;
             end
             if V[3]==2
-                population[i-1,:]=offsprings[i,:]
+                population[i-1,:]=deepcopy(offsprings[i,:])
                 progressFlags[i-1]=1;
             end
             if V[4]==1
-                population[i,:]=offsprings[i-1,:]
+                population[i,:]=deepcopy(offsprings[i-1,:])
                 progressFlags[i]=1;
             end
             if V[4]==2
-                population[i,:]=offsprings[i,:]
+                population[i,:]=deepcopy(offsprings[i,:])
                 progressFlags[i]=1;
             end
-
         end
         # When no ofspring solution has entered the next generation,
         # then the GA run is stopped.
-        if sum(progressFlags==0)
+        if sum(progressFlags)==0
             println("No Progress, GA terminated")
+            print("Population=");     println(populationSize)
+            print("numberOfColours=");println(numberOfColours)
             progress=-1;
         end
         progressFlags[:]=0;
+
     end
 end
