@@ -4,7 +4,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
     progressFlags=Array{Int64}(Int(populationSize))
     progressFlags[:]=0;
     progress=0;
-
+    numOfGenerations=1;
     while progress!=-1
         #1)Shuffling the population:
         population=population[shuffle(1:end),:]
@@ -69,6 +69,8 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             progress=-1;
         end
         progressFlags[:]=0;
+        numOfGenerations+=1;
 
     end
+    return numOfGenerations
 end

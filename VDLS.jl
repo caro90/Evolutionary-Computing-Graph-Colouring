@@ -14,7 +14,7 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
 
     # Perform vertex decent until no improvement was made
     iterationsWithoutImprovement = 0
-    while iterationsWithoutImprovement < 5#100
+    while iterationsWithoutImprovement < 100#100
 
         # Traverse over all vertices in a random order
         for i=1:numberOfVertices
