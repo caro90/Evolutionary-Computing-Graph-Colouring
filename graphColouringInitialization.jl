@@ -1,4 +1,4 @@
-function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
+function graphColouringInitialization(numberOfVertices,numberOfColours,rng,populationSize)
     #temporary manual graphAdjacency matrix
 #=  graphAdjacencyMatrix = Array{Int64}(5,2)
     graphAdjacencyMatrix[1,1] = 1 ;graphAdjacencyMatrix[1,2] = 4;
@@ -7,7 +7,6 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
     graphAdjacencyMatrix[4,1] = 2 ;graphAdjacencyMatrix[4,2] = 4
     graphAdjacencyMatrix[5,1] = 3 ;graphAdjacencyMatrix[5,2] = 4
 =#
-    graphAdjacencyMatrix=datasetLoading(datasetPath)
     #--------------------------------
     # Create a 2D Array:
     # Every row represents a solution of coloured vertices
@@ -24,5 +23,5 @@ function graphColouringInitialization(datasetPath,numberOfVertices,numberOfColou
                append!(population[i, rand(rng, 1:numberOfColours)], j)
         end
     end
-return graphAdjacencyMatrix, population
+return population
 end

@@ -8,11 +8,14 @@ include("GPX.jl")
 include("geneticAlgorithm.jl")
 rng = MersenneTwister(Dates.millisecond(now()))
 datasetPath=string(pwd(), "\\Datasets\\le450_15_graph.csv")
-populationSize=2
+print(string("Started\n"))
+
+populationSize=100
 numberOfVertices=450
-numberOfColours=2
+numberOfColours=17
 tic()
-graphAdjacencyMatrix,population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
+graphAdjacencyMatrix=datasetLoading(datasetPath)
+population=graphColouringInitialization(datasetPath,numberOfVertices,numberOfColours,rng,populationSize)
 geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberOfVertices,numberOfColours,rng)
 executionTiming=toc()
 #end
