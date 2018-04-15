@@ -44,6 +44,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
                 println("Population=");print(populationSize)
                 println("numberOfColours=");print(numberOfColours)
                 print("Vertex Descent moves=");println(sum(moveCountsVDLS))
+                print("Number of generations=");println(numOfGenerations)
             end
 
             V[:]=sortperm([ conflictsOffspring1,conflictsOffspring2,conflictsParent1,conflictsParent2])
@@ -72,10 +73,10 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             print("numberOfColours=");println(numberOfColours)
             progress=-1;
             print("Vertex Descent moves=");println(sum(moveCountsVDLS))
+            print("Number of generations=");println(numOfGenerations)
         end
         progressFlags[:]=0;
         numOfGenerations+=1;
 
     end
-    return numOfGenerations
 end
