@@ -8,6 +8,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
     moveCountsVDLS=zeros(Array{Int64}(populationSize))
 
     while progress!=-1
+        averageConflicts = 0
         #1)Shuffling the population:
         population=population[shuffle(1:end),:]
         #2)Pairing using crossover:
@@ -33,6 +34,9 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             vertexColours = createVertexColoursArray(population[i,:], numberOfVertices)
             conflictsParent2 = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
+            averageConflicts += conflictsParent1 / populationSize
+            averageConflicts += conflictsParent2 / populationSize
+
             ## Checking whether or not a solution found.
             if conflictsOffspring1==0   ||
                conflictsOffspring2==0   ||
@@ -48,22 +52,24 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             end
 
             V[:]=sortperm([ conflictsOffspring1,conflictsOffspring2,conflictsParent1,conflictsParent2])
-            if V[3]==1
+            if V[1]==1
                 population[i-1,:]=deepcopy(offsprings[i-1,:])
                 progressFlags[i-1]=1;
             end
-            if V[3]==2
+            if V[1]==2
                 population[i-1,:]=deepcopy(offsprings[i,:])
                 progressFlags[i-1]=1;
             end
-            if V[4]==1
+            if V[2]==1
                 population[i,:]=deepcopy(offsprings[i-1,:])
                 progressFlags[i]=1;
             end
-            if V[4]==2
+            if V[2]==2
                 population[i,:]=deepcopy(offsprings[i,:])
                 progressFlags[i]=1;
             end
+
+
         end
         # When no ofspring solution has entered the next generation,
         # then the GA run is stopped.
@@ -78,5 +84,6 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
         progressFlags[:]=0;
         numOfGenerations+=1;
 
+        println(averageConflicts)
     end
 end
