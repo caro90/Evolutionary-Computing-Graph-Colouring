@@ -5,14 +5,15 @@ function experimentCorrelation(graphAdjacencyMatrix,numberOfVertices,numberOfCol
     averageCorrelation = zeros(Array{Float64}(2))
 
     useVDLS = 0
-    for i=1:10
+    for i=1:2
         # Generate random parent pool
         parents=graphColouringInitialization(numberOfVertices,numberOfColours,rng,populationSize)
 
         if useVDLS == 1
             # Perform VDLS
             for j=1:populationSize
-                parents[j,:]=VDLS(graphAdjacencyMatrix, parents[j,:], numberOfVertices, rng)
+                moveCountVDLS,parents[j,:]=VDLS(graphAdjacencyMatrix, parents[j,:], numberOfVertices, rng)
+                print(string(j, ", "))
             end
         end
 
@@ -34,11 +35,11 @@ function experimentCorrelation(graphAdjacencyMatrix,numberOfVertices,numberOfCol
         # Compute average correlation coefficient of the 5 independent runs
         averageCorrelation[useVDLS + 1] += computeCorrelationCoefficient(fitnessParents,fitnessOffspring) / 5
 
-        if i==5
+        if i==1
             # Switch to using VDLS for the next 5 runs
             useVDLS = 1
         end
-        print(string(i , "/ 10 \n"))
+        print(string(i , "/ 2 \n"))
     end
 
     print(string("================================\n","GPX correlation coefficient\n"))

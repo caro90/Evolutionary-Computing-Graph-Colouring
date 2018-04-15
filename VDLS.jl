@@ -9,12 +9,13 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
     # Create an array of vertex indices in a random order
     traverserOrder = sample(1:numberOfVertices, numberOfVertices, replace = false)
 
-    conflictsAfter = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
-    conflictsBefore = conflictsAfter + 1
+    conflictsBest = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
+    bestColouringPartioning = deepcopy(colouringPartioning)
+    bestVertexColours = deepcopy(vertexColours)
 
     # Perform vertex decent until no improvement was made
     iterationsWithoutImprovement = 0
-    while iterationsWithoutImprovement < 100#100
+    while iterationsWithoutImprovement < 5
 
         # Traverse over all vertices in a random order
         for i=1:numberOfVertices
@@ -50,14 +51,22 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
 
         end
 
-        conflictsBefore = conflictsAfter
         conflictsAfter = countConflictingEdges(graphAdjacencyMatrix, vertexColours)
 
-        if conflictsAfter >= conflictsBefore
+        if conflictsAfter >= conflictsBest
             iterationsWithoutImprovement += 1
+        end
+
+        if conflictsAfter > conflictsBest
+            colouringPartioning = deepcopy(bestColouringPartioning)
+            vertexColours = deepcopy(bestVertexColours)
         else
+            conflictsBest = conflictsAfter
+            bestColouringPartioning = deepcopy(colouringPartioning)
+            bestVertexColours = deepcopy(vertexColours)
             iterationsWithoutImprovement = 0
         end
+
     end
 
 return moveCountVDLS, colouringPartioning
