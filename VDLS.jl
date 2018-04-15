@@ -1,6 +1,6 @@
 include("createVertexColoursArray.jl")
 function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
-
+    moveCountVDLS = 0
     numberOfColours = size(colouringPartioning, 1)
 
     # Create array with vertex colours for quick access
@@ -40,10 +40,13 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
             end
 
             # Change the colour of the vertex to the colour that gives the best improvement
-            newColour = bestImprovement[1]
-            filter!(e->e!=v, colouringPartioning[colour]) # Remove vertex from old colour subset
-            append!(colouringPartioning[newColour], v) # Add vertex to new colour subset
-            vertexColours[v] = newColour # Also update vertex colours array
+            if bestImprovement[1] != colour
+                newColour = bestImprovement[1]
+                filter!(e->e!=v, colouringPartioning[colour]) # Remove vertex from old colour subset
+                append!(colouringPartioning[newColour], v) # Add vertex to new colour subset
+                vertexColours[v] = newColour # Also update vertex colours array
+                moveCountVDLS += 1
+            end
 
         end
 
@@ -57,5 +60,5 @@ function VDLS(graphAdjacencyMatrix, colouringPartioning, numberOfVertices, rng)
         end
     end
 
-return colouringPartioning
+return moveCountVDLS, colouringPartioning
 end

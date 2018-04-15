@@ -4,6 +4,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
     progressFlags=Array{Int64}(Int(populationSize))
     progressFlags[:]=0;
     progress=0;
+    moveCountsVDLS=zeros(Array{Int64}(populationSize))
 
     while progress!=-1
         #1)Shuffling the population:
@@ -14,7 +15,8 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
         #Apply Local Search Vertex Descent to every Offspring Solution
         Threads.@threads for i=1:populationSize
             solution=deepcopy(offsprings[i,:]);
-            offsprings[i,:]=VDLS(graphAdjacencyMatrix, solution, numberOfVertices, rng)
+            moveCountVDLS,offsprings[i,:]=VDLS(graphAdjacencyMatrix, solution, numberOfVertices, rng)
+            moveCountsVDLS[i] += moveCountVDLS
         end
         for i=2:2:populationSize
             # Create array with vertex colours for quick access
@@ -40,6 +42,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
                 println("Solution Found")
                 println("Population=");print(populationSize)
                 println("numberOfColours=");print(numberOfColours)
+                print("Vertex Descent moves=");println(sum(moveCountsVDLS))
             end
 
             V[:]=sortperm([ conflictsOffspring1,conflictsOffspring2,conflictsParent1,conflictsParent2])
@@ -67,6 +70,7 @@ function geneticAlgorithm(population,graphAdjacencyMatrix,populationSize,numberO
             print("Population=");     println(populationSize)
             print("numberOfColours=");println(numberOfColours)
             progress=-1;
+            print("Vertex Descent moves=");println(sum(moveCountsVDLS))
         end
         progressFlags[:]=0;
 
